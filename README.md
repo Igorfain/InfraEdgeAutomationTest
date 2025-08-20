@@ -25,7 +25,6 @@ InfraEdgeAutomationTest/
 ├── MainConfig.json        → Base/API URLs
 ├── WikipediaUiTestCase.md → Test case documentation
 ```
-
 ---
 
 ## ⚙️ Requirements
@@ -53,8 +52,13 @@ InfraEdgeAutomationTest/
 
 ---
 
+## 📋 Test Cases
+
+🧪 UI Test Case: [Wikipedia Search Test](WikipediaUiTestCase.md)
+
+---
+
 ## 📝 Notes
 
 - Content may vary on Wikipedia - test validates word count, not exact text
 - Text normalization removes brackets, punctuation, and is case-insensitive
-
