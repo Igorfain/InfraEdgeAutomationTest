@@ -11,6 +11,7 @@ namespace InfraEdgeAutomationTest.Tests
     {
         [Test(Description = "Validate unique word count from Wikipedia UI")]
         [AllureTag("UI")]
+        [AllureTag("TC_UI_001")]
         public void ValidateUiWordCount()
         {
             new WikipediaSteps(driver).ValidateUniqueWordsFromUi();
