@@ -1,12 +1,11 @@
 # Test Case: Validate Unique Word Count from Wikipedia UI
 
-**ID**: TC_UI_001  
+**ID** (Tagged in Allure- Igor): TC_UI_001  
 **Title**: Extract and count unique words from "Test-driven development" section on Wikipedia  
 **Preconditions**:  
 - Wikipedia is available and reachable  
 - Browser is installed  
 - ChromeDriver is accessible  
-- Internet connection is active
 
 **Steps**:
 1. Navigate to https://en.wikipedia.org/wiki/Test_automation  
