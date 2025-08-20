@@ -1,0 +1,4 @@
+{
+  "baseUrl": "https://en.wikipedia.org/wiki/Test_automation",
+  "apiUrl": "https://en.wikipedia.org/w/api.php"
+}
