@@ -45,11 +45,15 @@ InfraEdgeAutomationTest/
 
 ---
 
+
 ## ▶️ Running Tests
 
 1. Open project in Visual Studio
 2. Run `WikipediaUiTest`, `WikipediaApiTest`, or `CompareUiApiTest`
 3. Optionally, generate Allure report from `allure-results`
+
+---
+📄 [Wikipedia UI Test Case](WikipediaUiTestCase.md)
 
 ---
 
