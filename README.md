@@ -25,7 +25,6 @@ InfraEdgeAutomationTest/
 ├── MainConfig.json        → Base/API URLs
 ├── WikipediaUiTestCase.md → Test case documentation
 ```
-
 ---
 
 ## ⚙️ Requirements
@@ -45,7 +44,6 @@ InfraEdgeAutomationTest/
 
 ---
 
-
 ## ▶️ Running Tests
 
 1. Open project in Visual Studio
@@ -53,7 +51,10 @@ InfraEdgeAutomationTest/
 3. Optionally, generate Allure report from `allure-results`
 
 ---
-📄 [Wikipedia UI Test Case](WikipediaUiTestCase.md)
+
+## 📋 Test Cases
+
+🧪 UI Test Case: [Wikipedia Search Test](WikipediaUiTestCase.md)
 
 ---
 
