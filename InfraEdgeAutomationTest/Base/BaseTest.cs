@@ -1,13 +1,17 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+﻿using Allure.Commons;
 using InfraEdgeAutomationTest.Config;
+using NUnit.Framework.Interfaces;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace InfraEdgeAutomationTest.Base
 {
     [TestFixture]
-    public class BaseTest
+    public abstract class BaseTest
     {
         protected IWebDriver driver;
+        protected WebDriverWait wait;
         protected MainConfig config;
 
         [SetUp]
@@ -21,6 +25,7 @@ namespace InfraEdgeAutomationTest.Base
             options.AddArgument("--headless");
 #endif
             driver = new ChromeDriver(options);
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
 
             OpenDefaultPage();
         }
@@ -33,6 +38,14 @@ namespace InfraEdgeAutomationTest.Base
         [TearDown]
         public void TearDown()
         {
+            if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
+            {
+                var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+                var screenshotPath = Path.Combine(Path.GetTempPath(), $"{TestContext.CurrentContext.Test.Name}_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+                screenshot.SaveAsFile(screenshotPath);
+                AllureLifecycle.Instance.AddAttachment("Screenshot", "image/png", screenshotPath);
+            }
+
             driver.Quit();
             driver.Dispose();
         }

@@ -12,7 +12,7 @@ namespace InfraEdgeAutomationTest.Pages
         public WikipediaPage(IWebDriver driver)
         {
             this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            this.wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
 
         private By TddNavLink => By.CssSelector("a.vector-toc-link[href='#Test-driven_development']");
