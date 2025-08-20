@@ -1,5 +1,5 @@
-﻿using InfraEdgeAutomationTest.Api;
-using InfraEdgeAutomationTest.Config;
+﻿using automationexerciseTests.Api;
+using InfraEdgeAutomationTest.Api;
 using InfraEdgeAutomationTest.Pages;
 using InfraEdgeAutomationTest.Utils;
 using NUnit.Allure.Attributes;
@@ -10,28 +10,37 @@ namespace InfraEdgeAutomationTest.Steps
     public class CompareSteps
     {
         private readonly WikipediaPage page;
-        private readonly WikipediaApiClient api;
+        private readonly WikipediaApiClient apiClient;
 
         public CompareSteps(IWebDriver driver)
         {
             page = new WikipediaPage(driver);
-            api = new WikipediaApiClient(MainConfig.Load().apiUrl);
+            apiClient = new WikipediaApiClient(Endpoints.BaseApiUrl);
         }
 
         [AllureStep("Compare unique word counts from UI and API")]
         public void CompareUiVsApi()
         {
-            string uiRaw = $"{page.GetPageTitle()} {page.GetTddSectionText()}";
-            var uiWords = TextProcessor.Process(uiRaw);
+            var uiWords = GetUiWords();
+            var apiWords = GetApiWords();
 
-            string apiRaw = api.GetTddSectionText();
-            var apiWords = TextProcessor.Process(apiRaw);
+            int diff = Math.Abs(uiWords.Count - apiWords.Count);
+            TestContext.WriteLine($"UI: {uiWords.Count}, API: {apiWords.Count}, Diff: {diff}");
 
-            TestContext.WriteLine($"UI word count: {uiWords.Count}");
-            TestContext.WriteLine($"API word count: {apiWords.Count}");
+            Assert.That(diff, Is.LessThanOrEqualTo(1),
+                $"Word count mismatch: UI={uiWords.Count}, API={apiWords.Count}");
+        }
 
-            Assert.That(Math.Abs(uiWords.Count - apiWords.Count), Is.LessThanOrEqualTo(1),
-                $"Mismatch in unique word counts: UI={uiWords.Count}, API={apiWords.Count}");
+        private Dictionary<string, int> GetUiWords()
+        {
+            page.ScrollToTddSection();
+            string text = $"{page.GetPageTitle()} {page.GetTddSectionText()}";
+            return TextProcessor.Process(text);
+        }
+
+        private Dictionary<string, int> GetApiWords()
+        {
+            return TextProcessor.Process(apiClient.GetTddSectionText());
         }
     }
 }

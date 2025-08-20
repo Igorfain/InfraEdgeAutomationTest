@@ -1,10 +1,8 @@
-﻿using InfraEdgeAutomationTest.Api;
+﻿using automationexerciseTests.Api;
 using InfraEdgeAutomationTest.Base;
-using InfraEdgeAutomationTest.Utils;
+using InfraEdgeAutomationTest.Steps;
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
-using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace InfraEdgeAutomationTest.Tests
 {
@@ -12,24 +10,23 @@ namespace InfraEdgeAutomationTest.Tests
     [TestFixture]
     public class WikipediaApiTest : BaseTest
     {
+        protected override bool RequiresBrowser => false;
+
         private Dictionary<string, int> apiWordCounts;
+        private WikipediaApiSteps apiSteps;
+
+        [SetUp]
+        public void Setup()
+        {
+            apiSteps = new WikipediaApiSteps(Endpoints.BaseApiUrl);
+        }
 
         [Test(Description = "Extract and count words from Wikipedia API")]
         [AllureTag("API")]
+        [AllureTag("TC_API_001")]
         public void CountWords_FromApi()
         {
-            var apiClient = new WikipediaApiClient(config.apiUrl);
-
-            string sectionText = apiClient.GetTddSectionText();
-
-            apiWordCounts = TextProcessor.Process(sectionText);
-
-            TestContext.WriteLine($"Unique word count: {apiWordCounts.Count}");
-            foreach (var pair in apiWordCounts)
-                TestContext.WriteLine($"{pair.Key}: {pair.Value}");
-
-            Assert.That(apiWordCounts.Count, Is.GreaterThan(0), "No words were counted in API text.");
-
+            apiWordCounts = apiSteps.ValidateUniqueWordsFromApi();
         }
 
         public Dictionary<string, int> GetApiWordCounts() => apiWordCounts;

@@ -14,10 +14,22 @@ namespace InfraEdgeAutomationTest.Base
         protected WebDriverWait wait;
         protected MainConfig config;
 
+        protected virtual bool RequiresBrowser => true;
+
         [SetUp]
         public void SetUp()
         {
             config = MainConfig.Load();
+
+            if (RequiresBrowser)
+            {
+                InitializeBrowser();
+                OpenDefaultPage();
+            }
+        }
+
+        private void InitializeBrowser()
+        {
             var options = new ChromeOptions();
 #if DEBUG
             options.AddArgument("--start-maximized");
@@ -26,28 +38,32 @@ namespace InfraEdgeAutomationTest.Base
 #endif
             driver = new ChromeDriver(options);
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-
-            OpenDefaultPage();
         }
 
         protected virtual void OpenDefaultPage()
         {
-            driver.Navigate().GoToUrl(config.baseUrl);
+            if (RequiresBrowser && driver != null)
+            {
+                driver.Navigate().GoToUrl(config.baseUrl);
+            }
         }
 
         [TearDown]
         public void TearDown()
         {
-            if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
+            if (RequiresBrowser && driver != null)
             {
-                var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
-                var screenshotPath = Path.Combine(Path.GetTempPath(), $"{TestContext.CurrentContext.Test.Name}_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                screenshot.SaveAsFile(screenshotPath);
-                AllureLifecycle.Instance.AddAttachment("Screenshot", "image/png", screenshotPath);
-            }
+                if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
+                {
+                    var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+                    var screenshotPath = Path.Combine(Path.GetTempPath(), $"{TestContext.CurrentContext.Test.Name}_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+                    screenshot.SaveAsFile(screenshotPath);
+                    AllureLifecycle.Instance.AddAttachment("Screenshot", "image/png", screenshotPath);
+                }
 
-            driver.Quit();
-            driver.Dispose();
+                driver.Quit();
+                driver.Dispose();
+            }
         }
     }
 }

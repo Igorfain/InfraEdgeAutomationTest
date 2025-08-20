@@ -1,9 +1,7 @@
 ﻿using InfraEdgeAutomationTest.Pages;
 using InfraEdgeAutomationTest.Utils;
 using NUnit.Allure.Attributes;
-using NUnit.Framework;
 using OpenQA.Selenium;
-using System.Collections.Generic;
 
 namespace InfraEdgeAutomationTest.Steps
 {
