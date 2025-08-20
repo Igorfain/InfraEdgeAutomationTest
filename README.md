@@ -55,6 +55,7 @@ InfraEdgeAutomationTest/
 ## 📋 Test Cases
 
 🧪 UI Test Case: [Wikipedia Search Test](WikipediaUiTestCase.md)
+
 🔗 [API Test Case: Wikipedia API Word Count](WikipediaApiTestCase.md)
 
 ---
